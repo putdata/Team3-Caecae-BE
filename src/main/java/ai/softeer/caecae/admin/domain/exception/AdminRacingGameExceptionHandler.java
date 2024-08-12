@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 @Slf4j
 @ControllerAdvice
-public class AdminExceptionHandler {
+public class AdminRacingGameExceptionHandler {
     // RacingGameException 에 대한 에러 핸들링
-    @ExceptionHandler(value = AdminException.class)
-    public ResponseEntity<ErrorResponse> handleRacingGameException(AdminException adminException) {
+    @ExceptionHandler(value = AdminRacingGameException.class)
+    public ResponseEntity<ErrorResponse> handleRacingGameException(AdminRacingGameException adminException) {
         log.error(adminException.getMessage(), adminException);
         return ErrorResponse.of(adminException.getErrorCode());
     }

@@ -4,9 +4,9 @@ import lombok.Builder;
 
 @Builder
 public record RacingGameWinnerResponseDto(
-    int ranking,
-    String phone,
-    double distance,
-    Integer selection
+        int ranking,
+        String phone,
+        double distance,
+        Integer selection
 ) {
 }

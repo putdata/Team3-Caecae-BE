@@ -4,10 +4,10 @@ import ai.softeer.caecae.global.enums.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class AdminException extends RuntimeException {
+public class AdminFindingGameException extends RuntimeException {
     private final ErrorCode errorCode;
 
-    public AdminException(ErrorCode errorCode) {
+    public AdminFindingGameException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
