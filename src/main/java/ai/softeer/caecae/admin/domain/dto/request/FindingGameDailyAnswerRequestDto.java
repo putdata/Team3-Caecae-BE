@@ -15,6 +15,7 @@ public record FindingGameDailyAnswerRequestDto(
         LocalTime startTime,
         LocalTime endTime,
         AnswerType answerType,
+        String questionImageUrl,
         List<FindingGameAnswerDto> answerInfoList
 ) {
 }

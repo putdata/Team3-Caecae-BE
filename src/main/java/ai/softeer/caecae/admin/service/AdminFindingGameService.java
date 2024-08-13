@@ -50,14 +50,15 @@ public class AdminFindingGameService {
                 // 좋은 방식은 아닌 것 같아서, 추후 어떻게 할지 논의 하면 좋겠음.
                 .findById(req.dayOfEvent()).orElseThrow(() -> new AdminFindingGameException(ErrorCode.FINDING_GAME_OF_DAY_NOT_FOUND));
 
-        // fingingGame의 시작시간, 종료시간, 당첨자수, 정답타입 새로운 정보로 업데이트
+        // fingingGame의 시작시간, 종료시간, 당첨자수, 정답타입, 정답이미지 새로운 정보로 업데이트
         findingGame.updateFindingGamePeriod(
                 findingGame.getStartTime().with(req.startTime()),
                 findingGame.getEndTime().with(req.endTime()),
                 req.numberOfWinner(),
-                req.answerType()
+                req.answerType(),
+                req.questionImageUrl()
         );
-        findingGameDbRepository.save(findingGame);
+        FindingGame savedFindingGame = findingGameDbRepository.save(findingGame);
 
         // findingGame의 2개의 정담(findingGameAnswer) 정보를 업데이트
         List<FindingGameAnswer> findingGameAnswerList = findingGameAnswerDbRepository
@@ -86,9 +87,11 @@ public class AdminFindingGameService {
 
         return FindingGameDailyAnswerResponseDto.builder()
                 .dayOfEvent(req.dayOfEvent())
-                .numberOfWinner(req.numberOfWinner())
-                .startTime(req.startTime())
-                .endTime(req.endTime())
+                .numberOfWinner(savedFindingGame.getNumberOfWinners())
+                .startTime(savedFindingGame.getStartTime())
+                .endTime(savedFindingGame.getEndTime())
+                .answerType(savedFindingGame.getAnswerType())
+                .questionImageUrl(savedFindingGame.getQuestionImageUrl())
                 .answerInfoList(req.answerInfoList())
                 .build();
 
@@ -149,7 +152,7 @@ public class AdminFindingGameService {
         for (int day = 0; day < 7; day++) {
             findingGames.add(
                     FindingGame.builder()
-                            .imageUrl("no-image")
+                            .questionImageUrl("no-image")
                             .numberOfWinners(315)
                             .answerType(AnswerType.UNSELECTED)
                             .build()

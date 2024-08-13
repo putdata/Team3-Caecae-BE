@@ -60,7 +60,7 @@ public class FindingGameService {
         for (int day = 0; day < 7; day++) {
             findingGames.add(
                     FindingGame.builder()
-                            .imageUrl("no-image")
+                            .questionImageUrl("no-image")
                             .numberOfWinners(315)
                             .answerType(AnswerType.UNSELECTED)
                             .build());

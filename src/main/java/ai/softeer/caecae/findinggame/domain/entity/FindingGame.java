@@ -18,7 +18,7 @@ public class FindingGame extends BaseEntity {
     private Integer id;
 
     @Column(nullable = false)
-    private String imageUrl;
+    private String questionImageUrl;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
@@ -42,11 +42,12 @@ public class FindingGame extends BaseEntity {
 
     // 숨은 캐스퍼찾기 기간, 기타 정보 업데이트
     public FindingGame updateFindingGamePeriod(LocalDateTime startTime, LocalDateTime endTime,
-                                               int numberOfWinners, AnswerType answerType) {
+                                               int numberOfWinners, AnswerType answerType, String questionImageUrl) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.numberOfWinners = numberOfWinners;
         this.answerType = answerType;
+        this.questionImageUrl = questionImageUrl;
         return this;
     }
 }
