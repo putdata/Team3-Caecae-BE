@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/racing")
-public class RacingGameApi {
+public class RacingGameController {
     private final RacingGameService racingGameService;
     private final RacingGameInfoService racingGameInfoService;
     private final RacingGameParticipantService racingGameParticipantService;

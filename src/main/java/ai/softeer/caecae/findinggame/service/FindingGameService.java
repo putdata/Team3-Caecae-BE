@@ -1,15 +1,18 @@
 package ai.softeer.caecae.findinggame.service;
 
+import ai.softeer.caecae.findinggame.domain.dto.FindingGameDailyInfo;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.enums.AnswerType;
 import ai.softeer.caecae.findinggame.repository.FindGameDbRepository;
 import ai.softeer.caecae.racinggame.domain.dto.request.RegisterFindingGamePeriodRequestDto;
+import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import ai.softeer.caecae.racinggame.domain.dto.response.RegisterFindingGamePeriodResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,5 +66,46 @@ public class FindingGameService {
                             .build());
         }
         return findingGames;
+    }
+
+    /**
+     * 전체 게임 정보와, 최근/다음 게임의 인덱스를 반환하는 로직
+     *
+     * @return 전체 게임 정보, 최근/다음 게임의 인덱스
+     */
+    @Transactional(readOnly = true)
+    public FindingGameInfoResponseDto getFindingGameInfo() {
+        List<FindingGame> findingGames = findGameDbRepository.findAllByOrderByStartTime();
+
+        int recentGameIndex = -1;
+        int nextGameIndex = -1;
+        for (int i = 0; i < findingGames.size(); i++) {
+            FindingGame findingGame = findingGames.get(i);
+            if (findingGame.getStartTime().isBefore(LocalDateTime.now())) {
+                recentGameIndex = i;
+            }
+        }
+
+        // 마지막 게임이 아니라면, nextGameIndex 설정
+        if (recentGameIndex != findingGames.size() - 1) {
+            nextGameIndex = recentGameIndex + 1;
+        }
+
+        List<FindingGameDailyInfo> findingGameDailyInfos = new ArrayList<>();
+        for (FindingGame findingGame : findingGames) {
+            findingGameDailyInfos.add(
+                    FindingGameDailyInfo.builder()
+                            .startTime(findingGame.getStartTime())
+                            .endTime(findingGame.getEndTime())
+                            .numberOfWinners(findingGame.getNumberOfWinners())
+                            .build()
+            );
+        }
+
+        return FindingGameInfoResponseDto.builder()
+                .findingGameInfos(findingGameDailyInfos)
+                .recentGameIndex(recentGameIndex)
+                .nextGameIndex(nextGameIndex)
+                .build();
     }
 }
