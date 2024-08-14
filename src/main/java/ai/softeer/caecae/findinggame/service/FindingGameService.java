@@ -92,7 +92,7 @@ public class FindingGameService {
                     .build();
         }
         FindingGame findingGame = findingGameDbRepository.findByIdCacheable(recentGameIndex + 1);
-        infoHashMap.put("image", findingGame.getQuestionImageUrl());
+        infoHashMap.put("questionImageUrl", findingGame.getQuestionImageUrl());
         infoHashMap.put("answerType", findingGame.getAnswerType().toString());
         return StartGameResponseDto.builder()
                 .availiable(true)
