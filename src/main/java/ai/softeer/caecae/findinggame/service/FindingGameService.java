@@ -5,6 +5,7 @@ import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponse
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.repository.FindGameDbRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,13 @@ import java.util.List;
 public class FindingGameService {
     private final FindGameDbRepository findGameDbRepository;
     private final Clock clock; // 테스트코드 의존성 주입을 위한 빈
-  
+
     /**
      * 전체 게임 정보와, 최근/다음 게임의 인덱스를 반환하는 로직
      *
      * @return 전체 게임 정보, 최근/다음 게임의 인덱스
      */
+    @Cacheable(cacheNames = "FindingGameInfo")
     @Transactional(readOnly = true)
     public FindingGameInfoResponseDto getFindingGameInfo() {
         List<FindingGame> findingGames = findGameDbRepository.findAllByOrderByStartTime();
