@@ -3,7 +3,7 @@ package ai.softeer.caecae.findinggame.service;
 import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.enums.AnswerType;
-import ai.softeer.caecae.findinggame.repository.FindGameDbRepository;
+import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ class FindingGameServiceTest {
     private FindingGameService findingGameService;
 
     @Mock
-    private FindGameDbRepository findGameDbRepository;
+    private FindingGameDbRepository findGameDbRepository;
 
     @Mock
     private Clock clock;

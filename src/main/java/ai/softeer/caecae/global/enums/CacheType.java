@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CacheType {
-    FINDING_GAME_KEY("FindingGameInfo", 10, 1000);
+    FINDING_GAME_KEY("FindingGameInfo", 10, 1000),
+    RECENT_FINDING_GAME("RecentFindingGame", 20, 1000);
 
     /**
      * cacheName : 캐시 이름

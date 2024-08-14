@@ -1,5 +1,6 @@
 package ai.softeer.caecae.findinggame.api;
 
+import ai.softeer.caecae.findinggame.domain.dto.response.StartGameResponseDto;
 import ai.softeer.caecae.findinggame.service.FindingGameService;
 import ai.softeer.caecae.global.dto.response.SuccessResponse;
 import ai.softeer.caecae.global.enums.SuccessCode;
@@ -25,5 +26,15 @@ public class FindingGameController {
     public ResponseEntity<SuccessResponse<FindingGameInfoResponseDto>> getFindingGameInfo() {
         FindingGameInfoResponseDto res = findingGameService.getFindingGameInfo();
         return SuccessResponse.of(SuccessCode.OK, res);
+    }
+
+    /**
+     * 숨은캐스퍼찾기 게임 시작 가능 여부와 관련 정보를 반환하는 api
+     *
+     * @return 시작 가능 여부, 게임 관련 정보
+     */
+    @GetMapping("/start")
+    public ResponseEntity<SuccessResponse<StartGameResponseDto>> startFindingGame() {
+        return SuccessResponse.of(SuccessCode.OK, findingGameService.startFindingGame());
     }
 }
