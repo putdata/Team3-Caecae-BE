@@ -75,8 +75,8 @@ public class AdminFindingGameService {
             FindingGameAnswer findingGameAnswer = findingGameAnswerList.get(idx);
 
             findingGameAnswer.updateFindingGame(
-                    findingGameAnswerDto.coordX(),
-                    findingGameAnswerDto.coordY(),
+                    findingGameAnswerDto.positionX(),
+                    findingGameAnswerDto.positionY(),
                     findingGameAnswerDto.descriptionImageUrl(),
                     findingGameAnswerDto.title(),
                     findingGameAnswerDto.content()
@@ -102,8 +102,8 @@ public class AdminFindingGameService {
         List<FindingGameAnswer> findingGameAnswerList = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             findingGameAnswerList.add(FindingGameAnswer.builder()
-                    .coordX(-1)
-                    .coordY(-1)
+                    .positionX(-1)
+                    .positionY(-1)
                     .descriptionImageUrl("no-image")
                     .title("no-title")
                     .content("no-content")
@@ -152,6 +152,7 @@ public class AdminFindingGameService {
         for (int day = 0; day < 7; day++) {
             findingGames.add(
                     FindingGame.builder()
+                            .id(day + 1) // PK를 1~7로 고정
                             .questionImageUrl("no-image")
                             .numberOfWinners(315)
                             .answerType(AnswerType.UNSELECTED)

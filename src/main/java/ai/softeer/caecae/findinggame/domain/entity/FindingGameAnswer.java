@@ -15,10 +15,10 @@ public class FindingGameAnswer extends BaseEntity {
     private Integer id;
 
     @Column(nullable = false)
-    private int coordX;
+    private double positionX;
 
     @Column(nullable = false)
-    private int coordY;
+    private double positionY;
 
     @Column(nullable = false)
     private String descriptionImageUrl;
@@ -33,9 +33,9 @@ public class FindingGameAnswer extends BaseEntity {
     @JoinColumn(name = "finding_game_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private FindingGame findingGame;
 
-    public void updateFindingGame(int coordX, int coordY, String descriptionImageUrl, String title, String content) {
-        this.coordX = coordX;
-        this.coordY = coordY;
+    public void updateFindingGame(double positionX, double positionY, String descriptionImageUrl, String title, String content) {
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.descriptionImageUrl = descriptionImageUrl;
         this.title = title;
         this.content = content;

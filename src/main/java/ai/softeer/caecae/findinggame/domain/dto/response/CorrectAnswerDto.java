@@ -1,10 +1,9 @@
-package ai.softeer.caecae.admin.domain.dto;
+package ai.softeer.caecae.findinggame.domain.dto.response;
 
 import lombok.Builder;
 
-// 숨은캐스퍼찾기 정답 정보
 @Builder
-public record FindingGameAnswerDto(
+public record CorrectAnswerDto(
         double positionX,
         double positionY,
         String descriptionImageUrl,
