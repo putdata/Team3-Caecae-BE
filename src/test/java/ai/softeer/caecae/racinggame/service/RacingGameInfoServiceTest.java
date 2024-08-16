@@ -121,7 +121,7 @@ class RacingGameInfoServiceTest {
         Mockito.when(racingGameInfoRepository.get()).thenReturn(racingGameInfo);
 
         // when
-        Boolean isGameStarable = racingGameInfoService.getIsGameStarable();
+        Boolean isGameStarable = racingGameInfoService.getIsGameStartable();
 
         // then
         Assertions.assertThat(isGameStarable).isTrue();
@@ -144,7 +144,7 @@ class RacingGameInfoServiceTest {
         Mockito.when(racingGameInfoRepository.get()).thenReturn(racingGameInfo);
 
         // when
-        Boolean isGameStarable = racingGameInfoService.getIsGameStarable();
+        Boolean isGameStarable = racingGameInfoService.getIsGameStartable();
 
         // then
         Assertions.assertThat(isGameStarable).isFalse();

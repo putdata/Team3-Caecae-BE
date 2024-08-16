@@ -65,9 +65,10 @@ public class RacingGameInfoService {
      *
      * @return
      */
-    public Boolean getIsGameStarable() {
+    public boolean getIsGameStartable() {
         RacingGameInfo racingGameInfo = racingGameInfoRepository.get();
-        return LocalDateTime.now().isAfter(racingGameInfo.getStartTime())
+        return racingGameInfo != null
+                && LocalDateTime.now().isAfter(racingGameInfo.getStartTime())
                 && LocalDateTime.now().isBefore(racingGameInfo.getEndTime());
 
     }

@@ -1,7 +1,10 @@
 package ai.softeer.caecae.racinggame.repository;
 
+import ai.softeer.caecae.global.enums.ErrorCode;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameInfo;
+import ai.softeer.caecae.racinggame.domain.exception.RacingGameException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +23,6 @@ public class RacingGameInfoRepository {
 
     // 레디스에 저장된 객체를 가져오는 로직
     public RacingGameInfo get() {
-        // TODO : 만약 없으면?
         return (RacingGameInfo) redisTemplate.opsForValue().get(KEY);
     }
 }

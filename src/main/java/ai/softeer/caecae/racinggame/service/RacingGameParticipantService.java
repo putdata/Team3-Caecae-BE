@@ -23,6 +23,7 @@ import java.util.Optional;
 public class RacingGameParticipantService {
     private final UserRepository userRepository;
     private final RacingGameParticipantRepository racingGameParticipantRepository;
+    private final RacingGameInfoService racingGameInfoService;
 
     /**
      * 사용자가 레이싱게임 결과를 등록하는 서비스 로직
@@ -32,6 +33,10 @@ public class RacingGameParticipantService {
      */
     @Transactional // 복합키를 가지는 두 개의 엔티티를 하나의 영속성에서 저장하기 위해 트랜잭션
     public RegisterRacingGameResultResponseDto registerOrUpdateRacingGameResult(RegisterRacingGameResultRequestDto req) {
+        boolean available = racingGameInfoService.getIsGameStartable();
+        if (!available) {
+            throw new RacingGameException(ErrorCode.RACING_GAME_NOT_AVAILABLE);
+        }
         // phone 으로 유저를 조회하고, 존재하지 않으면 유저를 등록하여 반환하기
         User user = findOrRegisterUser(req.phone());
 

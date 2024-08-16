@@ -41,8 +41,8 @@ public class RacingGameController {
      */
     @GetMapping("/available")
     public ResponseEntity<SuccessResponse<Boolean>> getIsGameStarable() {
-        Boolean isGameStarable = racingGameInfoService.getIsGameStarable();
-        return SuccessResponse.of(SuccessCode.OK, isGameStarable);
+        boolean isGameStartable = racingGameInfoService.getIsGameStartable();
+        return SuccessResponse.of(SuccessCode.OK, isGameStartable);
     }
 
     /**

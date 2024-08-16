@@ -23,6 +23,7 @@ public enum ErrorCode implements BaseCode {
     NEED_AUTHENICATE(1000, "권한이 필요한 요청입니다,", HttpStatus.UNAUTHORIZED),
     RACING_GAME_NOT_FOUND(2000, "등록된 레이싱게임이 없습니다.", HttpStatus.NOT_FOUND),
     SELECTION_ALREADY_SELECTED(-2000, "이미 선택된 커스텀 옵션이 존재합니다.", HttpStatus.BAD_REQUEST),
+    RACING_GAME_NOT_AVAILABLE(-1000, "현재 레이싱게임을 이용할 수 없습니다.", HttpStatus.UNAUTHORIZED),
 
     /**
      * 3xxx : 유저
