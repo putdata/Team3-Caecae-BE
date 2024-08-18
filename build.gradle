@@ -62,6 +62,9 @@ dependencies {
     // CaffeineCacheManager
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.6'
 
+    // 모니터링
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.named('test') {
