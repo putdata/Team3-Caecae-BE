@@ -33,7 +33,7 @@ public class ShortUrlService {
     @Transactional
     public ShareUrlResponseDto shareUrl(ShareUrlRequestDto req) {
         double distance = Math.round(req.distance() * 1e6) / 1e6; // 소수점 6자리까지만 반영
-        int percentage = req.percentage();
+        double percentage = Math.round(req.percentage() * 1e2) / 1e2;
         if (distance > 400.0 || percentage > 100) throw new UrlException(ErrorCode.BAD_REQUEST);
 
         String longUrl = "/api/url/preview?distance=" + distance + "&percentage=" + percentage;
@@ -96,12 +96,18 @@ public class ShortUrlService {
      */
     public ResponseEntity<?> previewUrl(ShareUrlRequestDto req) {
         return ResponseEntity.status(200)
+                .header("Content-Type", "text/html; charset=utf-8")
                 .body(
-                        "<head>" +
-                            "<meta property=\"og:title\" content=\"레이싱 게임\">" +
-                            "<meta property=\"og:description\" content=\"이동 거리 " + req.distance() + "KM / 상위 " + req.percentage() + "%\">" +
-                        "</head>" +
-                        "<body><script>location.href=\"http://www.caecae.kro.kr/\";</script></body>"
+                        "<html>" +
+                            "<head>" +
+                                "<meta charset=\"utf-8\">" +
+                                "<meta property=\"og:type\" content=\"website\" />" +
+                                "<meta property=\"og:title\" content=\"레이싱 게임\">" +
+                                "<meta property=\"og:image\" content=\"https://contents-cdn.viewus.co.kr/image/2024/07/CP-2023-0096/image-b868c07a-8a04-44cc-9f07-a591905a3680.jpeg\">" +
+                                "<meta property=\"og:description\" content=\"이동 거리 " + req.distance() + "KM / 상위 " + req.percentage() + "%\">" +
+                            "</head>" +
+                            "<body><script>location.href=\"http://www.caecae.kro.kr/racecasper\";</script></body>" +
+                        "</html>"
                 );
     }
 }
