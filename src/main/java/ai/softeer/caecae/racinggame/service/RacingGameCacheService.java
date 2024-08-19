@@ -17,7 +17,7 @@ public class RacingGameCacheService {
     public void refreshCalculatedGapRankedListCache() {
         clearCalculatedGapRankedListCache();
         int size = racingGameRepository.getCalculatedGapRankedList().size();
-        log.info("S레이싱게임 랭킹 테이블 갱신 : rankSize: " + size);
+        log.info("레이싱게임 랭킹 테이블 갱신 : rankSize: " + size);
     }
 
     @CacheEvict(cacheNames = "CalculatedGapRankedList")
