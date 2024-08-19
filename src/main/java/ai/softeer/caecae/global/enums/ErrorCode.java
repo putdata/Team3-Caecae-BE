@@ -48,7 +48,8 @@ public enum ErrorCode implements BaseCode {
     /**
      * 9xxx : 기타 에러
      */
-    INTERNAL_SERVER_ERROR(-9000, "서버 내부 오류입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    INTERNAL_SERVER_ERROR(-9000, "서버 내부 오류입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    BAD_REQUEST(-9000, "잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
 
     private final int responseCode;
     private final String message;
