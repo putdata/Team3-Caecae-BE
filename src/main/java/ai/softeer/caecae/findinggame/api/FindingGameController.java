@@ -1,17 +1,17 @@
 package ai.softeer.caecae.findinggame.api;
 
+import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import ai.softeer.caecae.findinggame.domain.dto.response.StartGameResponseDto;
 import ai.softeer.caecae.findinggame.service.FindingGameService;
 import ai.softeer.caecae.global.dto.response.SuccessResponse;
 import ai.softeer.caecae.global.enums.SuccessCode;
-import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/finding")
 @RequiredArgsConstructor
 public class FindingGameController {

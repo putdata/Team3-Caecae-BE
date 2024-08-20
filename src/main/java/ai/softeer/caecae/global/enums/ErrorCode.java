@@ -37,6 +37,7 @@ public enum ErrorCode implements BaseCode {
     FINDING_GAME_OF_DAY_NOT_FOUND(-4000, "해당 날짜에 등록된 틀린그림찾기 게임이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     CURRENT_FINDING_GAME_NOT_FOUND(-4000, "현재 진행중인 숨은캐스퍼찾기 게임이 없습니다", HttpStatus.NOT_FOUND),
     INVALID_FINDING_GAME_ANSWER(-4000, "숨은캐스퍼찾기 게임의 정답이 유효하지 않습니다", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_FINDING_GAME_HINT(-4000, "숨은캐스퍼찾기 게임의 힌트를 적절하게 요청하지 못했습니다.", HttpStatus.BAD_REQUEST),
     S3_IMAGE_UPLOAD_FAIL(-4001, "S3 이미지 업로드에 실패하였습니다.", HttpStatus.UNPROCESSABLE_ENTITY),
     S3_INVALID_DIRECTORY_NAME(-4001, "S3 버킷 디렉토리명이 잘못되었습니다.", HttpStatus.BAD_REQUEST),
 

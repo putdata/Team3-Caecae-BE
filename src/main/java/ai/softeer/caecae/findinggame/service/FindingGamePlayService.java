@@ -1,10 +1,12 @@
 package ai.softeer.caecae.findinggame.service;
 
-import ai.softeer.caecae.findinggame.domain.dto.request.AnswerRequestDto;
 import ai.softeer.caecae.findinggame.domain.dto.PositionDto;
+import ai.softeer.caecae.findinggame.domain.dto.request.AnswerRequestDto;
+import ai.softeer.caecae.findinggame.domain.dto.request.HintRequestDto;
 import ai.softeer.caecae.findinggame.domain.dto.request.RegisterWinnerRequestDto;
 import ai.softeer.caecae.findinggame.domain.dto.response.AnswerResponseDto;
 import ai.softeer.caecae.findinggame.domain.dto.response.CorrectAnswerDto;
+import ai.softeer.caecae.findinggame.domain.dto.response.HintResponseDto;
 import ai.softeer.caecae.findinggame.domain.dto.response.RegisterWinnerResponseDto;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameAnswer;
@@ -40,9 +42,9 @@ public class FindingGamePlayService {
     private final UserRepository userRepository;
     private final Clock clock;
 
-    private final int MAX_ANSWER_COUNT = 2;
-    private final double ANSWER_RADIUS = 0.1;
-    private final long CONSTRAINT_TIME = 1000L * 60 * 3;
+    private static final int MAX_ANSWER_COUNT = 2;
+    private static final double ANSWER_RADIUS = 0.1;
+    private static final long CONSTRAINT_TIME = 1000L * 60 * 3;
 
 
     /**
@@ -78,10 +80,10 @@ public class FindingGamePlayService {
                 double correctX = correct.getPositionX();
                 double correctY = correct.getPositionY();
 
-                // 점과 점 사이의 거리
-                double diff = Math.sqrt((positionX - correctX) * (positionX - correctX) + (positionY - correctY) * (positionY - correctY));
+                // 정답 범위 내인지 판별하기
+                Boolean isValidAnswerRange = isValidAnswerRange(positionX, positionY, correctX, correctY);
 
-                if (diff <= ANSWER_RADIUS) { // TODO: 정답 범위 0.1에서 조정 필요
+                if (isValidAnswerRange) {
                     correctAnswerCount++;
 //                  정답을 1개만 맞추고 1개를 지운 경우, 아래의 코드 때문에, getCachedCurrentFindingGameAnswer 에서 가져오는 정답이 2개에서 1개로 바뀌는 버그
                     correctList.remove(correct);
@@ -187,5 +189,67 @@ public class FindingGamePlayService {
      */
     private List<FindingGameAnswer> getCachedCurrentFindingGameAnswer(int findingGameId) {
         return findingGameAnswerDbRepository.findAllByFindingGame_Id(findingGameId);
+    }
+
+    /**
+     * 사용자에게 힌트를 전달함
+     *
+     * @param req 사용자가 지금까지 맞춘 정답 목록
+     * @return 힌트
+     */
+    public HintResponseDto getHint(HintRequestDto req) {
+// 현재 진행중인 숨은캐스퍼찾기 게임 반환
+        List<FindingGame> findingGames = findingGameDbRepository.findAllOrderByStartTimeCacheable();
+        FindingGame currentFindingGame = getCachedCurrentFindingGame(findingGames).orElseThrow(
+                () -> new FindingGameException(ErrorCode.CURRENT_FINDING_GAME_NOT_FOUND)
+        );
+
+        // 현재 진행중인 문제의 정답
+        List<FindingGameAnswer> findingGameAnswers = new ArrayList<>(getCachedCurrentFindingGameAnswer(currentFindingGame.getId()));
+
+        if (req.answerList().size() == 0) {
+            log.info("맞춘 정답이 없어서, 무작위 정답 1개 반환");
+        } else if (req.answerList().size() == 1) {
+            log.info("맞춘 정답이 있어서, 맞추지 않은 정답 1개 반환");
+            double userAnswerX = req.answerList().get(0).positionX();
+            double userAnswerY = req.answerList().get(0).positionY();
+            for (FindingGameAnswer findingGameAnswer : findingGameAnswers) {
+                double correctX = findingGameAnswer.getPositionX();
+                double correctY = findingGameAnswer.getPositionY();
+
+                // 사용자가 보낸 좌표가 두 정답중 어떤 정답에 해당하는지 찾기 위함
+                Boolean isValidAnswer = isValidAnswerRange(userAnswerX, userAnswerY, correctX, correctY);
+
+                if (isValidAnswer) {
+                    findingGameAnswers.remove(findingGameAnswer);
+                    break;
+                }
+
+            }
+
+        } else {
+            throw new FindingGameException(ErrorCode.INVALID_FINDING_GAME_HINT);
+        }
+        PositionDto hintPositionDto = PositionDto.builder()
+                .positionX(findingGameAnswers.get(0).getPositionX())
+                .positionY(findingGameAnswers.get(0).getPositionY())
+                .build();
+        return HintResponseDto.builder()
+                .hintPosition(hintPositionDto)
+                .build();
+    }
+
+    /**
+     * 사용자가 요청한 좌표와, 정답 좌표의 오차가 0.1 이내인지 판별하는 로직
+     *
+     * @param answerX  사용자의 x좌표
+     * @param answerY  사용자의 y좌표
+     * @param correctX 정답의 x좌표
+     * @param correctY 정답의 y좌표
+     * @return 정답 여부
+     */
+    private static Boolean isValidAnswerRange(double answerX, double answerY, double correctX, double correctY) {
+        double diff = Math.sqrt((answerX - correctX) * (answerX - correctX) + (answerY - correctY) * (answerY - correctY));
+        return diff <= ANSWER_RADIUS;
     }
 }
