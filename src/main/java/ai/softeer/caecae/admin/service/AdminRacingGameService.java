@@ -4,10 +4,11 @@ import ai.softeer.caecae.admin.domain.dto.response.RacingGameWinnerResponseDto;
 import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
-import ai.softeer.caecae.findinggame.service.FindingGameService;
-import ai.softeer.caecae.racinggame.domain.dto.response.RacingGameInfoResponseDto;
+import ai.softeer.caecae.global.enums.ErrorCode;
+import ai.softeer.caecae.racinggame.domain.entity.RacingGameInfo;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameParticipant;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameWinner;
+import ai.softeer.caecae.racinggame.domain.exception.RacingGameException;
 import ai.softeer.caecae.racinggame.repository.RacingGameInfoRepository;
 import ai.softeer.caecae.racinggame.repository.RacingGameRepository;
 import ai.softeer.caecae.racinggame.repository.RacingGameWinnerRepository;
@@ -29,7 +30,8 @@ public class AdminRacingGameService {
     private final RacingGameWinnerRepository racingGameWinnerRepository;
     private final FindingGameDbRepository findingGameDbRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
-    private final RacingGameInfoService racingGameInfoService;
+    private final RacingGameInfoRepository racingGameInfoRepository;
+
 
     /**
      * 당첨자를 뽑는 서비스 로직
@@ -56,9 +58,14 @@ public class AdminRacingGameService {
             Integer selection = p.getSelection();
             arr[idx++] = weight[currentSector] + (selection != null && selection > 0 ? selectionWeight : 0);
         }
+
+        RacingGameInfo racingGameInfo = racingGameInfoRepository.get();
+        if (racingGameInfo == null) {
+            throw new RacingGameException(ErrorCode.RACING_GAME_NOT_FOUND);
+        }
+
         // N명 중에서 한 명을 선택한 후, 그 사람을 가중치 / 전체 가중치 확률로 당첨자로 만든다. 이를 당첨인원수만큼 반복
-        RacingGameInfoResponseDto racingGameInfo = racingGameInfoService.getRacingGameInfo();
-        int drawNumber = Math.min(racingGameInfo.numberOfWinners(), participants.size());
+        int drawNumber = Math.min(racingGameInfo.getNumberOfWinners(), participants.size());
         int ranking = 1;
         while (ranking <= drawNumber) {
             int cur = (int) (Math.random() * n + 0.5) % n;

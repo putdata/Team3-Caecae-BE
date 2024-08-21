@@ -29,6 +29,7 @@ public class RacingGameInfoService {
         if (racingGameInfo == null) {
             throw new RacingGameException(ErrorCode.RACING_GAME_NOT_FOUND);
         }
+
         return RacingGameInfoResponseDto.builder()
                 .startTime(racingGameInfo.getStartTime())
                 .endTime(racingGameInfo.getEndTime())
