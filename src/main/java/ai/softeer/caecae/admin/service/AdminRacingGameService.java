@@ -1,13 +1,17 @@
 package ai.softeer.caecae.admin.service;
 
 import ai.softeer.caecae.admin.domain.dto.response.RacingGameWinnerResponseDto;
+import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
+import ai.softeer.caecae.findinggame.service.FindingGameService;
+import ai.softeer.caecae.racinggame.domain.dto.response.RacingGameInfoResponseDto;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameParticipant;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameWinner;
 import ai.softeer.caecae.racinggame.repository.RacingGameInfoRepository;
 import ai.softeer.caecae.racinggame.repository.RacingGameRepository;
 import ai.softeer.caecae.racinggame.repository.RacingGameWinnerRepository;
+import ai.softeer.caecae.racinggame.service.RacingGameInfoService;
 import ai.softeer.caecae.user.domain.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,7 @@ public class AdminRacingGameService {
     private final RacingGameWinnerRepository racingGameWinnerRepository;
     private final FindingGameDbRepository findingGameDbRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
+    private final RacingGameInfoService racingGameInfoService;
 
     /**
      * 당첨자를 뽑는 서비스 로직
@@ -48,10 +53,13 @@ public class AdminRacingGameService {
         for (RacingGameParticipant p : participants) {
             accumulatedPercent += accumulatedPercentPoint;
             while (accumulatedPercent > accumulateSector[currentSector] + 0.01) currentSector++;
-            arr[idx++] = weight[currentSector] + (p.getSelection() != 0 ? selectionWeight : 0);
+            Integer selection = p.getSelection();
+            arr[idx++] = weight[currentSector] + (selection != null && selection > 0 ? selectionWeight : 0);
         }
         // N명 중에서 한 명을 선택한 후, 그 사람을 가중치 / 전체 가중치 확률로 당첨자로 만든다. 이를 당첨인원수만큼 반복
-        int drawNumber = Math.min(315, participants.size()), ranking = 1; // TODO: 315 Global 변수화
+        RacingGameInfoResponseDto racingGameInfo = racingGameInfoService.getRacingGameInfo();
+        int drawNumber = Math.min(racingGameInfo.numberOfWinners(), participants.size());
+        int ranking = 1;
         while (ranking <= drawNumber) {
             int cur = (int) (Math.random() * n + 0.5) % n;
             if (arr[cur] < 0) continue;
