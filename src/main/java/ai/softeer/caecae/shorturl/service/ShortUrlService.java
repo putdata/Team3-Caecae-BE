@@ -10,6 +10,7 @@ import ai.softeer.caecae.shorturl.repository.ShortUrlRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class ShortUrlService {
     private final ShortUrlRepository shortUrlRepository;
 
     private final int SHORT_URL_LENGTH = 7;
+
+    @Value("${images.preview}")
+    private String previewImageUrl;
 
     /**
      * 레이싱게임 순위 단축 URL로 공유하기 기능
@@ -95,19 +99,22 @@ public class ShortUrlService {
      * @return
      */
     public ResponseEntity<?> previewUrl(ShareUrlRequestDto req) {
+        String distance = String.format("%.3f", req.distance());
+        String percentage = String.format("%.1f", req.percentage());
+
         return ResponseEntity.status(200)
                 .header("Content-Type", "text/html; charset=utf-8")
                 .body(
                         "<html>" +
-                            "<head>" +
+                                "<head>" +
                                 "<meta charset=\"utf-8\">" +
                                 "<meta property=\"og:type\" content=\"website\" />" +
-                                "<meta property=\"og:title\" content=\"레이싱 게임\">" +
-                                "<meta property=\"og:image\" content=\"https://contents-cdn.viewus.co.kr/image/2024/07/CP-2023-0096/image-b868c07a-8a04-44cc-9f07-a591905a3680.jpeg\">" +
-                                "<meta property=\"og:description\" content=\"이동 거리 " + req.distance() + "KM / 상위 " + req.percentage() + "%\">" +
-                            "</head>" +
-                            "<body><script>location.href=\"http://www.caecae.kro.kr/racecasper\";</script></body>" +
-                        "</html>"
+                                "<meta property=\"og:title\" content=\"친구의 기록에 도전하세요!\">" +
+                                "<meta property=\"og:image\" content=\"" + previewImageUrl + "\">" +
+                                "<meta property=\"og:description\" content=\"상위 " + percentage + "% (거리 : " + distance + "km)\">" +
+                                "</head>" +
+                                "<body><script>location.href=\"http://www.caecae.kro.kr/racecasper\";</script></body>" +
+                                "</html>"
                 );
     }
 }
