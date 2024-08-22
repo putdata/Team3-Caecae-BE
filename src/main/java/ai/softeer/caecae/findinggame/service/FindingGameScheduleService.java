@@ -52,6 +52,8 @@ public class FindingGameScheduleService {
             completed++;
         }
         findingGameWinnerRepository.saveAll(winners);
-        log.info("선착순 인원 스케쥴링 처리 완료 - {} 건", completed);
+        if (completed > 0) {
+            log.info("선착순 인원 스케쥴링 처리 완료 - {} 건", completed);
+        }
     }
 }
