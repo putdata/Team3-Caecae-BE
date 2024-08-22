@@ -27,6 +27,8 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
+      readonly-host: ${REDIS_READONLY_HOST}
+      readonly-port: ${REDIS_READONLY_PORT}
 
 # orm 로그 파라미터 바인딩 설정
 logging:
