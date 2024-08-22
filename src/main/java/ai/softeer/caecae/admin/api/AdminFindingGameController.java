@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/admin/finding")
 @RequiredArgsConstructor
 public class AdminFindingGameController {
-    private final RacingGameInfoService racingGameService;
-    private final FindingGameService findingGameService;
     private final AdminFindingGameService adminFindingGameService;
 
     /**

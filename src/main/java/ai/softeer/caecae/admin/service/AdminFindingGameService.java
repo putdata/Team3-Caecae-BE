@@ -1,9 +1,9 @@
 package ai.softeer.caecae.admin.service;
 
-import ai.softeer.caecae.admin.domain.exception.AdminFindingGameException;
 import ai.softeer.caecae.admin.domain.dto.FindingGameAnswerDto;
 import ai.softeer.caecae.admin.domain.dto.request.FindingGameDailyAnswerRequestDto;
 import ai.softeer.caecae.admin.domain.dto.response.FindingGameDailyAnswerResponseDto;
+import ai.softeer.caecae.admin.domain.exception.AdminFindingGameException;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameAnswer;
 import ai.softeer.caecae.findinggame.domain.enums.AnswerType;
@@ -12,9 +12,6 @@ import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
 import ai.softeer.caecae.global.enums.ErrorCode;
 import ai.softeer.caecae.racinggame.domain.dto.request.RegisterFindingGamePeriodRequestDto;
 import ai.softeer.caecae.racinggame.domain.dto.response.RegisterFindingGamePeriodResponseDto;
-import ai.softeer.caecae.racinggame.repository.RacingGameInfoRepository;
-import ai.softeer.caecae.racinggame.repository.RacingGameRepository;
-import ai.softeer.caecae.racinggame.repository.RacingGameWinnerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,9 +23,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminFindingGameService {
-    private final RacingGameInfoRepository raceGameInfoRepository;
-    private final RacingGameRepository racingGameRepository;
-    private final RacingGameWinnerRepository racingGameWinnerRepository;
     private final FindingGameDbRepository findingGameDbRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
 

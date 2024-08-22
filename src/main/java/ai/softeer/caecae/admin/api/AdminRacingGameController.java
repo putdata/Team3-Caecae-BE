@@ -2,7 +2,6 @@ package ai.softeer.caecae.admin.api;
 
 import ai.softeer.caecae.admin.domain.dto.response.RacingGameWinnerResponseDto;
 import ai.softeer.caecae.admin.service.AdminRacingGameService;
-import ai.softeer.caecae.findinggame.service.FindingGameService;
 import ai.softeer.caecae.global.dto.response.SuccessResponse;
 import ai.softeer.caecae.global.enums.SuccessCode;
 import ai.softeer.caecae.racinggame.domain.dto.request.RegisterRacingGameInfoRequestDto;
@@ -20,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminRacingGameController {
     private final RacingGameInfoService racingGameService;
-    private final FindingGameService findingGameService;
     private final AdminRacingGameService adminRacingGameService;
 
     /**

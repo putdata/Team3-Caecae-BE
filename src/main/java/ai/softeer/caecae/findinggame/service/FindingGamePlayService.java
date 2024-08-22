@@ -38,9 +38,7 @@ import java.util.UUID;
 public class FindingGamePlayService {
     private final FindingGameRedisRepository findingGameRedisRepository;
     private final FindingGameDbRepository findingGameDbRepository;
-    private final FindingGameWinnerRepository findingGameWinnerRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
-    private final UserRepository userRepository;
     private final Clock clock;
 
     private static final int MAX_ANSWER_COUNT = 2;

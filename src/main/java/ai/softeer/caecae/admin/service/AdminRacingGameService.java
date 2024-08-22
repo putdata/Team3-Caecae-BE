@@ -1,9 +1,7 @@
 package ai.softeer.caecae.admin.service;
 
 import ai.softeer.caecae.admin.domain.dto.response.RacingGameWinnerResponseDto;
-import ai.softeer.caecae.findinggame.domain.dto.response.FindingGameInfoResponseDto;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
-import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
 import ai.softeer.caecae.global.enums.ErrorCode;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameInfo;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameParticipant;
@@ -12,7 +10,6 @@ import ai.softeer.caecae.racinggame.domain.exception.RacingGameException;
 import ai.softeer.caecae.racinggame.repository.RacingGameInfoRepository;
 import ai.softeer.caecae.racinggame.repository.RacingGameRepository;
 import ai.softeer.caecae.racinggame.repository.RacingGameWinnerRepository;
-import ai.softeer.caecae.racinggame.service.RacingGameInfoService;
 import ai.softeer.caecae.user.domain.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +22,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminRacingGameService {
-    private final RacingGameInfoRepository raceGameInfoRepository;
     private final RacingGameRepository racingGameRepository;
     private final RacingGameWinnerRepository racingGameWinnerRepository;
-    private final FindingGameDbRepository findingGameDbRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
     private final RacingGameInfoRepository racingGameInfoRepository;
 
