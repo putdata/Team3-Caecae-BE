@@ -5,13 +5,11 @@ import ai.softeer.caecae.findinggame.domain.entity.FindingGameWinner;
 import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameRedisRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameWinnerRepository;
-import ai.softeer.caecae.racinggame.repository.RacingGameRepository;
 import ai.softeer.caecae.user.domain.entity.User;
 import ai.softeer.caecae.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class FindingGameScheduleService {
     private final int TRANSACTION_COUNT = 100;
 
     @Transactional
-    @Scheduled(cron = "*/2 * * * * *")
+    @Scheduled(cron = "*/1 * * * * *")
     public void insertWinnerToDatabaseScheduler() {
         int completed = 0;
         List<FindingGameWinner> winners = new ArrayList<>();
@@ -39,21 +37,27 @@ public class FindingGameScheduleService {
             if (realWinner == null) break;
             Integer gameId = realWinner.getGameId();
             String phone = realWinner.getPhone();
-            FindingGameWinner winner = FindingGameWinner.builder()
-                    .user(userRepository.findByPhone(phone).orElseGet(() -> userRepository.save(
-                            User.builder()
-                                    .phone(phone)
-                                    .build()
-                    )))
-                    .findingGame(findingGameDbRepository.findById(gameId).get())
-                    .build();
-            winners.add(winner);
+            try {
+                insertWinner(gameId, phone);
+            } catch (Exception e) {
+                log.error("선착순 인원 처리 에러 - gameId:{}, phone:{}, 처리 완료된 건: {}", gameId, phone, completed);
+                return;
+            }
             findingGameRedisRepository.popRealWinner();
             completed++;
         }
-        findingGameWinnerRepository.saveAll(winners);
         if (completed > 0) {
             log.info("선착순 인원 스케쥴링 처리 완료 - {} 건", completed);
         }
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    protected void insertWinner(Integer gameId, String phone) {
+        Integer userId = userRepository.findByPhone(phone).orElseGet(() -> userRepository.save(
+                User.builder()
+                        .phone(phone)
+                        .build()
+        )).getId();
+        findingGameWinnerRepository.insertWinner(userId, gameId);
     }
 }
