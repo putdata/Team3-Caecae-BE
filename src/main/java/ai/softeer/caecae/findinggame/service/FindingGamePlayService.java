@@ -10,6 +10,7 @@ import ai.softeer.caecae.findinggame.domain.dto.response.HintResponseDto;
 import ai.softeer.caecae.findinggame.domain.dto.response.RegisterWinnerResponseDto;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameAnswer;
+import ai.softeer.caecae.findinggame.domain.entity.FindingGameRealWinner;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameWinner;
 import ai.softeer.caecae.findinggame.domain.exception.FindingGameException;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
@@ -138,7 +139,6 @@ public class FindingGamePlayService {
         String ticketId = req.ticketId();
         Long startTime = findingGameRedisRepository.getWinnerStartTime(ticketId);
         if (startTime == null) return RegisterWinnerResponseDto.builder().success(false).build(); // 목록에 없으면
-        log.info("사용자 시작시간: {}", startTime);
         Long endTime = System.currentTimeMillis() - 1000L; // 1초 지연 허용
         if (endTime - startTime > CONSTRAINT_TIME) { // 3분 초과 - 실패 및 당첨자 제외
             findingGameRedisRepository.decreaseCount();
@@ -147,18 +147,18 @@ public class FindingGamePlayService {
                     .success(false)
                     .build();
         }
-        Integer gameId = 1;
+        // 현재 진행중인 숨은캐스퍼찾기 게임 반환
+        List<FindingGame> findingGames = findingGameDbRepository.findAllOrderByStartTimeCacheable();
+        FindingGame currentFindingGame = getCachedCurrentFindingGame(findingGames).orElseThrow(
+                () -> new FindingGameException(ErrorCode.CURRENT_FINDING_GAME_NOT_FOUND)
+        );
+        Integer gameId = currentFindingGame.getId();
         String phone = req.phone();
-        findingGameDbRepository.findById(gameId);
-        FindingGameWinner winner = FindingGameWinner.builder()
-                .user(userRepository.findByPhone(phone).orElseGet(() -> userRepository.save(
-                        User.builder()
-                                .phone(phone)
-                                .build()
-                )))
-                .findingGame(findingGameDbRepository.findById(gameId).get())
+        FindingGameRealWinner realWinner = FindingGameRealWinner.builder()
+                .gameId(gameId)
+                .phone(phone)
                 .build();
-        findingGameWinnerRepository.save(winner);
+        findingGameRedisRepository.pushRealWinner(realWinner);
         findingGameRedisRepository.deleteWinner(ticketId);
         return RegisterWinnerResponseDto.builder()
                 .success(true)

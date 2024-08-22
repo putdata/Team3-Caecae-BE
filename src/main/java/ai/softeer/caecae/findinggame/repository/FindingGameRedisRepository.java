@@ -1,5 +1,7 @@
 package ai.softeer.caecae.findinggame.repository;
 
+import ai.softeer.caecae.findinggame.domain.entity.FindingGameRealWinner;
+import ai.softeer.caecae.findinggame.domain.entity.FindingGameWinner;
 import ai.softeer.caecae.global.utils.SystemTimeConvertor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,13 +10,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Repository
 @RequiredArgsConstructor
 public class FindingGameRedisRepository {
-    private final static String TICKET_KEY = "ticket";
+    private final static String REAL_WINNER_KEY = "real_winner";
     private final static String COUNT_KEY = "count";
     private final static String WINNER_KEY = "winner";
     private final RedisTemplate<String, Object> redisTemplate;
@@ -67,6 +70,33 @@ public class FindingGameRedisRepository {
      */
     public Long getWinnerStartTime(String ticketId) {
         return (Long) redisTemplate.opsForHash().get(WINNER_KEY, ticketId);
+    }
+
+    /**
+     * 레디스 큐에 DB에 반영될 참여자 PUSH
+     *
+     * @param winner
+     */
+    public void pushRealWinner(FindingGameRealWinner winner) {
+        redisTemplate.opsForList().rightPush(REAL_WINNER_KEY, winner);
+    }
+
+    /**
+     * 레디스 큐에서 DB에 반영된 참여자 POP
+     *
+     * @return
+     */
+    public FindingGameRealWinner popRealWinner() {
+        return (FindingGameRealWinner) redisTemplate.opsForList().leftPop(REAL_WINNER_KEY);
+    }
+
+    /**
+     * 레디스 큐에서 DB에 반영될 참여자 GET
+     *
+     * @return
+     */
+    public FindingGameRealWinner getFrontRealWinner() {
+        return (FindingGameRealWinner) redisTemplate.opsForList().index(REAL_WINNER_KEY, 0);
     }
 
     /**
