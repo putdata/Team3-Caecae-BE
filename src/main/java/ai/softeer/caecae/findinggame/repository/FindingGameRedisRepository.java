@@ -1,7 +1,6 @@
 package ai.softeer.caecae.findinggame.repository;
 
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameRealWinner;
-import ai.softeer.caecae.findinggame.domain.entity.FindingGameWinner;
 import ai.softeer.caecae.global.utils.SystemTimeConvertor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j

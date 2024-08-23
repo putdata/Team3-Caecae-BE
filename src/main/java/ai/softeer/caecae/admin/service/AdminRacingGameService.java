@@ -1,7 +1,6 @@
 package ai.softeer.caecae.admin.service;
 
 import ai.softeer.caecae.admin.domain.dto.response.RacingGameWinnerResponseDto;
-import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
 import ai.softeer.caecae.global.enums.ErrorCode;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameInfo;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameParticipant;

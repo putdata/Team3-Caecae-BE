@@ -11,8 +11,6 @@ import ai.softeer.caecae.findinggame.domain.exception.FindingGameException;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameRedisRepository;
-import ai.softeer.caecae.findinggame.repository.FindingGameWinnerRepository;
-import ai.softeer.caecae.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeEach;

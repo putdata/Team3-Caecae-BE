@@ -2,8 +2,8 @@ package ai.softeer.caecae.racinggame.service;
 
 import ai.softeer.caecae.global.enums.ErrorCode;
 import ai.softeer.caecae.racinggame.domain.dto.request.RegisterRacingGameResultRequestDto;
-import ai.softeer.caecae.racinggame.domain.dto.response.RegisterRacingGameResultResponseDto;
 import ai.softeer.caecae.racinggame.domain.dto.request.SetSelectionRequestDto;
+import ai.softeer.caecae.racinggame.domain.dto.response.RegisterRacingGameResultResponseDto;
 import ai.softeer.caecae.racinggame.domain.dto.response.SetSelectionResponseDto;
 import ai.softeer.caecae.racinggame.domain.entity.RacingGameParticipant;
 import ai.softeer.caecae.racinggame.domain.exception.RacingGameException;
