@@ -24,7 +24,6 @@ import java.util.List;
 public class AdminRacingGameService {
     private final RacingGameRepository racingGameRepository;
     private final RacingGameWinnerRepository racingGameWinnerRepository;
-    private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
     private final RacingGameInfoRepository racingGameInfoRepository;
 
 
@@ -84,6 +83,7 @@ public class AdminRacingGameService {
             }
         }
         // TODO: 수학적으로 보이기 + 더 나은 방법 생각해보기?
+        racingGameWinnerRepository.deleteAll();
         racingGameWinnerRepository.saveAll(winners);
         return racingGameWinnerResponseDtoList;
     }
