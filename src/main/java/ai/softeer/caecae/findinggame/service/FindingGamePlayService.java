@@ -11,7 +11,6 @@ import ai.softeer.caecae.findinggame.domain.dto.response.RegisterWinnerResponseD
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameAnswer;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameRealWinner;
-import ai.softeer.caecae.findinggame.domain.entity.FindingGameWinner;
 import ai.softeer.caecae.findinggame.domain.exception.FindingGameException;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
@@ -39,6 +38,8 @@ public class FindingGamePlayService {
     private final FindingGameRedisRepository findingGameRedisRepository;
     private final FindingGameDbRepository findingGameDbRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
+    private final FindingGameWinnerRepository findingGameWinnerRepository;
+    private final UserRepository userRepository;
     private final Clock clock;
 
     private static final int MAX_ANSWER_COUNT = 2;
@@ -161,6 +162,22 @@ public class FindingGamePlayService {
         return RegisterWinnerResponseDto.builder()
                 .success(true)
                 .build();
+    }
+
+    /**
+     * 실제 DB에 선착순 당첨자를 기록하는 서비스 로직
+     *
+     * @param gameId
+     * @param phone
+     */
+    @Transactional
+    protected void insertWinner(Integer gameId, String phone) {
+        Integer userId = userRepository.findByPhone(phone).orElseGet(() -> userRepository.save(
+                User.builder()
+                        .phone(phone)
+                        .build()
+        )).getId();
+        findingGameWinnerRepository.insertWinner(userId, gameId);
     }
 
     /**
