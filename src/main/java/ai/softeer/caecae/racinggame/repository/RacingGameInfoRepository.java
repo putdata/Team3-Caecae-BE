@@ -15,13 +15,13 @@ public class RacingGameInfoRepository {
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Qualifier("redisReadOnlyTemplate")
-    private final RedisTemplate<String, Object> redisReadonlyTemplate;
+    private final RedisTemplate<String, Object> redisReadOnlyTemplate;
 
     public RacingGameInfoRepository(
-            @Qualifier("redisTemplate") RedisTemplate<String, Object> redisTemplate,
-            @Qualifier("redisReadOnlyTemplate") RedisTemplate<String, Object> redisReadonlyTemplate) {
+            RedisTemplate<String, Object> redisTemplate,
+            RedisTemplate<String, Object> redisReadOnlyTemplate) {
         this.redisTemplate = redisTemplate;
-        this.redisReadonlyTemplate = redisReadonlyTemplate;
+        this.redisReadOnlyTemplate = redisReadOnlyTemplate;
     }
 
     // 레디스에 저장하는 로직
@@ -32,6 +32,6 @@ public class RacingGameInfoRepository {
 
     // 레디스에 저장된 객체를 가져오는 로직
     public RacingGameInfo get() {
-        return (RacingGameInfo) redisReadonlyTemplate.opsForValue().get(KEY);
+        return (RacingGameInfo) redisReadOnlyTemplate.opsForValue().get(KEY);
     }
 }
