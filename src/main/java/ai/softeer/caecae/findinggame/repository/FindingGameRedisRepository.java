@@ -1,14 +1,11 @@
 package ai.softeer.caecae.findinggame.repository;
 
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameRealWinner;
-import ai.softeer.caecae.global.utils.SystemTimeConvertor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Slf4j
@@ -97,29 +94,14 @@ public class FindingGameRedisRepository {
         return (FindingGameRealWinner) redisTemplate.opsForList().index(REAL_WINNER_KEY, 0);
     }
 
+    public Map<Object, Object> getAllWinner() {
+        return redisTemplate.opsForHash().entries(WINNER_KEY);
+    }
+
     /**
-     * 정답을 모두 맞추었지만 전화번호를 입력하지 않은 winner의 데이터를 주기적으로 삭제한다.
+     * count 값을 0으로 초기화 하는 메서드
      */
-    @Scheduled(cron = "* */5 * * * *") // 매 5분마다 실행
-    public void deleteUnregisteredWinner() {
-        Map<Object, Object> entries = redisTemplate.opsForHash().entries(WINNER_KEY);
-        for (Map.Entry<Object, Object> entry : entries.entrySet()) {
-            String ticketId = entry.getKey().toString();
-            Long startTime = (Long) entry.getValue();
-            Long diffTime = System.currentTimeMillis() - startTime;
-
-            if (diffTime > 1000 * 60 * 3) {
-                LocalDateTime convertedStartTime = SystemTimeConvertor.convertToLocalDateTime(startTime);
-                LocalDateTime now = SystemTimeConvertor.convertToLocalDateTime(System.currentTimeMillis());
-
-                deleteWinner(ticketId);
-                Long count = decreaseCount();
-
-                log.info("[DELETED] UUID : " + ticketId);
-                log.info("[DELETED] 정답을 맞춘 시간: " + convertedStartTime);
-                log.info("[DELETED] 현재 시간     : " + now);
-                log.info("current count : " + count);
-            }
-        }
+    public void initDailyWinnerCount() {
+        redisTemplate.opsForValue().set(COUNT_KEY, 0);
     }
 }

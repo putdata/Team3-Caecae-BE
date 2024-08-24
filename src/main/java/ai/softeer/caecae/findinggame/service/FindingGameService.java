@@ -76,6 +76,7 @@ public class FindingGameService {
 
         HashMap<String, String> infoHashMap = new HashMap<>();
 
+        //TODO: nextGameIndex == -1 이면 에러 수정
         FindingGameDailyInfo nextGameInfo = dto.findingGameInfos().get(nextGameIndex);
         LocalDateTime nowTime = LocalDateTime.now(clock);
         // 캐싱으로 인해 다음 게임이 이미 시작된 경우를 확인
