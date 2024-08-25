@@ -1,14 +1,38 @@
 # Team: 난대학시절현대차를전공했단사실👨‍🎓
 
+현대자동차그룹 소프티어 부트캠프 4기 Team 3️⃣ 
+
 ## Project Name: 캐스퍼가캐리해(Caecae)
 
-## 팀원 소개
+> **캐스퍼 일렉트릭 출시 이벤트 페이지 :  Caecae**
+
+🔗 http://www.caecae.kro.kr/
+
+### 🔎 이벤트 소개 : 나를 찾아봐 (숨은 캐스퍼 찾기 게임)
+- 매일 오후 3시15분 오픈되는 선착순 이벤트입니다.
+- 캐스퍼 일렉트릭의 내부에 숨겨진 픽셀/뱃지 디자인을 누구보다 빠르게 찾아보세요!
+- 선착순 인원 내에 선정되면, 전화번호를 입력하여 상품을 획득할 수 있습니다.
+<img width="1704" alt="image" src="https://github.com/user-attachments/assets/c6d1b6ab-703c-4f1d-816b-156cd2a5b3a2">
+
+### 🚗 이벤트 소개 : 전력으로 315km (레이싱 게임)
+- 일주일간 플레이할 수 있는 레이싱 게임입니다.
+- 315km에 근접하게 멈추면 당첨 확률이 올라갑니다.
+- 친구에게 공유하기를 통해 경쟁심을 유발하세요!
+- 기록이 마음에 든다면, 응모하기 버튼을 통해 전화번호를 입력하여 기록을 등록할 수 있습니다. 
+- 최고점수만 기록되며, 커스텀 옵션을 선택하면 당첨 확률이 올라갑니다.
+
+<img width="1711" alt="image" src="https://github.com/user-attachments/assets/30d4ff09-cad8-4b87-adc8-10b3d8714917">
+
+
+## ⭐ 팀원 소개
 
 | 서창교                      | 조민환                      | 오익준                      | 박진우                      |
 | --------------------------- | --------------------------- | --------------------------- | --------------------------- |
 | <img src="https://avatars.githubusercontent.com/u/52204038?v=4" width="200" height="200"/> | <img src="https://avatars.githubusercontent.com/u/102406238?v=4" width="200" height="200"/> | <img src="https://avatars.githubusercontent.com/u/39623729?v=4" width="200" height="200"/> | <img src="https://avatars.githubusercontent.com/u/77064618?v=4" width="200" height="200"/> |
 | FE                          | FE                          | BE                          | BE                          |
 | [@dunkkk](https://github.com/dunkkkk)       | [@minani-0621](https://github.com/minani-0621)       | [@putdata](https://github.com/putdata)                    | [@j2noo](https://github.com/j2noo)                |
+
+<br/>
 
 ## 📕 그라운드 룰
 
@@ -19,14 +43,12 @@
 - 현재 개발 피처에서 합의가 필요하면 바로 대화하기
 - git flow 전략을 사용하여 브랜치 관리하기
 - 코드리뷰 열심히 하기
-- 슬랙 확인하고 나면 ✅이모지 달기
 
 ### 📅 Daily Scrum & Daily Review
 
 - 매일 아침 10시에 스크럼 작성하기
 - 매일 퇴근하기 전 회고 작성하기
 - 회의 때 적극적으로 참여하기 (의견 많이 내기)
-- 지각하지 말기 (지각하면 과자 한박스 사오기)
 
 ### ❤️‍🔥 팀 문화
 
@@ -39,6 +61,13 @@
 
 - 아침 10시 스크럼 전, 점심메뉴 먼저 정하기
 - 일주일에 한 번은 참맛식당 가기
+
+
+## 📁 아카이빙
+- [스프린트 및 회고](https://drive.google.com/drive/folders/1s0Vez7YbkkyGPteh-5q0r0Y_vre_QfZq?usp=sharing)
+
+
+<br/>
 
 ## **💻Tech - Backend 개발 목표**
 
@@ -57,18 +86,17 @@
 - 주요 메서드들에 대한 단위테스트 및 통합테스트 작성
 - 목표 테스트 커버리지 50%
 
----
+<br/>
 
 ## **📘Backend 기술 스택**
 
-### Server
+### Application
 
 - Spring boot 3.3.2
 - Spring Data Jpa
 - Java 17
 - MySQL 8.0
 - Redis
-
 
 ### Infra
 
@@ -78,11 +106,12 @@
 - Github-actions
 - Docker
 
-### Monitoring Server
+### Monitoring
 
-- Node exporter
+- Node-exporter
 - Grafana
 - Prometheus
+- Spring Actuator
 
 ### Test Tool
 
@@ -90,20 +119,20 @@
 - Mockito
 - nGrinder
 
----
+<br/>
 
 ## 🖥️Server Architecture
 
-<img width="817" alt="image" src="https://github.com/user-attachments/assets/2c3d4f76-c298-4163-91b0-7a9e83628ceb">
+<img width="1071" alt="image" src="https://github.com/user-attachments/assets/425b7349-81a2-4b8b-b031-6f343375faac">
 
-
----
+<br/>
 
 ## 📄ERD
 
-<img width="720" alt="image" src="https://github.com/user-attachments/assets/5286d18f-7deb-44e8-9083-7a69ea2d70e1">
+![image](https://github.com/user-attachments/assets/8053e05d-6642-4981-b55f-c0e15dffc051)
 
----
+
+<br/>
 
 ## **🔖Naming Rules**
 
@@ -132,7 +161,7 @@
     - 컬렉션(Collection): **복수형**을 사용하거나 **컬렉션을 명시한다**. (Ex. userList, users, userMap)
     - LocalDateTime: 접미사에 **Date**를 붙인다.
 
----
+<br/>
 
 ## **🗂️ Commit Convention**
 
@@ -150,7 +179,7 @@
 - `perf` : 성능 개선
 - `rename` : 파일 혹은 폴더명 변경
 
----
+<br/>
 
 ## **🐬 Git Flow**
 
