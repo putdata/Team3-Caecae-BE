@@ -1,4 +1,4 @@
-## Team: 난대학시절현대차를전공했단사실👨‍🎓
+# Team: 난대학시절현대차를전공했단사실👨‍🎓
 
 ## Project Name: 캐스퍼가캐리해(Caecae)
 
@@ -6,8 +6,39 @@
 
 | 서창교                      | 조민환                      | 오익준                      | 박진우                      |
 | --------------------------- | --------------------------- | --------------------------- | --------------------------- |
+| <img src="https://avatars.githubusercontent.com/u/52204038?v=4" width="200" height="200"/> | <img src="https://avatars.githubusercontent.com/u/102406238?v=4" width="200" height="200"/> | <img src="https://avatars.githubusercontent.com/u/39623729?v=4" width="200" height="200"/> | <img src="https://avatars.githubusercontent.com/u/77064618?v=4" width="200" height="200"/> |
 | FE                          | FE                          | BE                          | BE                          |
-| [@dunkkk](https://github.com/dunkkk)       | [@minani-0621](https://github.com/minani-0621)       | [@putdata](https://github.com/putdata)                    | [@j2noo](https://github.com/j2noo)                |
+| [@dunkkk](https://github.com/dunkkkk)       | [@minani-0621](https://github.com/minani-0621)       | [@putdata](https://github.com/putdata)                    | [@j2noo](https://github.com/j2noo)                |
+
+## 📕 그라운드 룰
+
+### 👨‍💻 개발 및 협업방식
+
+- 모든 에픽, 스토리, 테스크, 작업, 브랜치는 **JIRA**를 통해 관리
+- 매주 스프린트 시작 시 백로그 작성
+- 현재 개발 피처에서 합의가 필요하면 바로 대화하기
+- git flow 전략을 사용하여 브랜치 관리하기
+- 코드리뷰 열심히 하기
+- 슬랙 확인하고 나면 ✅이모지 달기
+
+### 📅 Daily Scrum & Daily Review
+
+- 매일 아침 10시에 스크럼 작성하기
+- 매일 퇴근하기 전 회고 작성하기
+- 회의 때 적극적으로 참여하기 (의견 많이 내기)
+- 지각하지 말기 (지각하면 과자 한박스 사오기)
+
+### ❤️‍🔥 팀 문화
+
+- 지각할 경우, 과자 한 박스 사오기
+- 웃으면서 화내기/짜증내기
+- 쉬고싶을 땐 눈치보지 않고 쉬기
+- 아니 / 근데 / 진짜 로 대화 시작하지 않기
+
+### 🍚 점심메뉴
+
+- 아침 10시 스크럼 전, 점심메뉴 먼저 정하기
+- 일주일에 한 번은 참맛식당 가기
 
 ## **💻Tech - Backend 개발 목표**
 
@@ -28,18 +59,6 @@
 
 ---
 
-## 📣 이슈 관리 로직
-
-<img width="720" alt="image" src="https://github.com/user-attachments/assets/73bf4f5c-90d0-4752-8a7f-62972adb3fa0">
-
-
-- EPIC : 최상위 작업
-- STORY : 사용자의 사용 흐름
-- TASK : 개발자 입장에서의 기능 분류
-- SUB-TASK : 세부적인 작업 단위
-
----
-
 ## **📘Backend 기술 스택**
 
 ### Server
@@ -49,20 +68,27 @@
 - Java 17
 - MySQL 8.0
 - Redis
-- AssertJ
+
 
 ### Infra
 
 - AWS EC2
 - AWS S3
+- AWS Parameter store
 - Github-actions
-- docker
+- Docker
 
 ### Monitoring Server
 
-- exporter
-- grafana
-- prometheus
+- Node exporter
+- Grafana
+- Prometheus
+
+### Test Tool
+
+- AssertJ
+- Mockito
+- nGrinder
 
 ---
 
@@ -151,11 +177,13 @@ ai.softeer.caecae
 │   │   │    ├── request
 │   │   │    └── response
 │   │   ├── entity
-│   │   └── mapper
 │   └── repository
 └── global
-     ├── utils
+     ├── api
      ├── config
-     ├── error
-     └── ...
+     ├── dto
+     ├── entity
+     ├── enums
+     ├── exception
+     └── utils
 ```
