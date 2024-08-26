@@ -1,17 +1,23 @@
 package ai.softeer.caecae.admin.service;
 
 import ai.softeer.caecae.admin.domain.dto.FindingGameAnswerDto;
+import ai.softeer.caecae.admin.domain.dto.FindingGameWinnerDto;
 import ai.softeer.caecae.admin.domain.dto.request.FindingGameDailyAnswerRequestDto;
 import ai.softeer.caecae.admin.domain.dto.response.FindingGameDailyAnswerResponseDto;
+import ai.softeer.caecae.admin.domain.dto.response.FindingGameWinnerResponseDto;
 import ai.softeer.caecae.admin.domain.exception.AdminFindingGameException;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGame;
 import ai.softeer.caecae.findinggame.domain.entity.FindingGameAnswer;
+import ai.softeer.caecae.findinggame.domain.entity.FindingGameWinner;
 import ai.softeer.caecae.findinggame.domain.enums.AnswerType;
 import ai.softeer.caecae.findinggame.repository.FindingGameAnswerDbRepository;
 import ai.softeer.caecae.findinggame.repository.FindingGameDbRepository;
+import ai.softeer.caecae.findinggame.repository.FindingGameWinnerRepository;
 import ai.softeer.caecae.global.enums.ErrorCode;
 import ai.softeer.caecae.racinggame.domain.dto.request.RegisterFindingGamePeriodRequestDto;
 import ai.softeer.caecae.racinggame.domain.dto.response.RegisterFindingGamePeriodResponseDto;
+import ai.softeer.caecae.user.domain.entity.User;
+import ai.softeer.caecae.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +31,8 @@ import java.util.List;
 public class AdminFindingGameService {
     private final FindingGameDbRepository findingGameDbRepository;
     private final FindingGameAnswerDbRepository findingGameAnswerDbRepository;
+    private final FindingGameWinnerRepository findingGameWinnerRepository;
+    private final UserRepository userRepository;
 
 
     /**
@@ -155,4 +163,28 @@ public class AdminFindingGameService {
         }
         return findingGames;
     }
+
+    public FindingGameWinnerResponseDto getFindingGameWinner() {
+        List<FindingGameWinner> findingGameWinners = findingGameWinnerRepository.findAll();
+        List<FindingGameWinnerDto> findingGameWinnerDtos = new ArrayList<>();
+
+        for (FindingGameWinner findingGameWinner : findingGameWinners) {
+            Integer userId = findingGameWinner.getUser().getId();
+            User user = userRepository.findById(userId).orElseThrow(
+                    () -> new AdminFindingGameException(ErrorCode.USER_NOT_FOUND)
+            );
+            findingGameWinnerDtos.add(
+                    FindingGameWinnerDto.builder()
+                            .day(findingGameWinner.getFindingGame().getId())
+                            .phone(user.getPhone())
+                            .build()
+            );
+
+        }
+
+        return FindingGameWinnerResponseDto.builder()
+                .winners(findingGameWinnerDtos)
+                .build();
+    }
+
 }

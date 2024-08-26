@@ -2,6 +2,7 @@ package ai.softeer.caecae.admin.api;
 
 import ai.softeer.caecae.admin.domain.dto.request.FindingGameDailyAnswerRequestDto;
 import ai.softeer.caecae.admin.domain.dto.response.FindingGameDailyAnswerResponseDto;
+import ai.softeer.caecae.admin.domain.dto.response.FindingGameWinnerResponseDto;
 import ai.softeer.caecae.admin.service.AdminFindingGameService;
 import ai.softeer.caecae.global.dto.response.SuccessResponse;
 import ai.softeer.caecae.global.enums.SuccessCode;
@@ -9,10 +10,7 @@ import ai.softeer.caecae.racinggame.domain.dto.request.RegisterFindingGamePeriod
 import ai.softeer.caecae.racinggame.domain.dto.response.RegisterFindingGamePeriodResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/finding")
@@ -43,6 +41,17 @@ public class AdminFindingGameController {
     public ResponseEntity<SuccessResponse<FindingGameDailyAnswerResponseDto>>
     saveFindingGameDailyInfo(@RequestBody FindingGameDailyAnswerRequestDto req) {
         FindingGameDailyAnswerResponseDto res = adminFindingGameService.saveFindingGameDailyAnswer(req);
+        return SuccessResponse.of(SuccessCode.OK, res);
+    }
+
+    /**
+     * 어드민이 숨은 캐스퍼찾기 당첨자를 조회하는 api
+     *
+     * @return
+     */
+    @GetMapping("/winner")
+    public ResponseEntity<SuccessResponse<FindingGameWinnerResponseDto>> getFindingGameWinner() {
+        FindingGameWinnerResponseDto res = adminFindingGameService.getFindingGameWinner();
         return SuccessResponse.of(SuccessCode.OK, res);
     }
 }

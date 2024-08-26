@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FindingGameWinnerRepository extends JpaRepository<FindingGameWinner, Integer> {
+
     @Modifying
     @Query(value = """
             INSERT IGNORE INTO finding_game_winner (user_id, finding_game_id)
             VALUES (:userId, :gameId)
             """, nativeQuery = true)
     void insertWinner(@Param("userId") Integer userId, @Param("gameId") Integer gameId);
+
 }
